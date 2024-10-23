@@ -12,6 +12,9 @@ st.set_page_config(
 # タイトルの設定
 st.title("リーダーボード")
 
+df_ref = pd.read_csv("正解.csv")
+st.write(df_ref)
+
 # サイドバーにアップロードファイルのウィジェットを表示
 st.sidebar.markdown("TEST")
 uploaded_file = st.sidebar.file_uploader("計算結果をCSVファイルでアップロードしてください", type='csv')
