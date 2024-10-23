@@ -21,5 +21,5 @@ st.sidebar.markdown("TEST")
 uploaded_file = st.sidebar.file_uploader("計算結果をCSVファイルでアップロードしてください", type='csv')
 if uploaded_file is not None:
     df_res = pd.read_csv(uploaded_file)
-    auc = roc_auc_score(df_ref["正解"], df_res["値"])
+    auc = roc_auc_score(df_ref["値"], df_res["値"])
     st.write(auc)
