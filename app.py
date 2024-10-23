@@ -39,12 +39,12 @@ if submitted:
 
         # レコードを登録
         sql = f"""
-            INSERT INTO leaderboard VALUES (
-               {name} 
-            ,  {auc}
+            INSERT INTO leaderboard (name, auc) VALUES (
+               :name 
+            ,  :auc
             )
         """
-        c.execute(sql)
+        c.execute(sql, {"name": {name}, "auc": {auc}})
         conn.commit()
 
         # 現在の結果表示
