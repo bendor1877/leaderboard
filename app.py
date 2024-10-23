@@ -19,7 +19,7 @@ st.title("リーダーボード")
 st.sidebar.markdown("TEST")
 uploaded_file = st.sidebar.file_uploader("計算結果のCSVファイルをアップロードしてください", type='csv')
 
-with st.sidebar.form(key="form", clear_on_submit=False):
+with st.sidebar.form(key="form", clear_on_submit=True):
     name = st.text_input("ニックネームを入力してください(他の参加者にも表示されます)")
     submitted = st.form_submit_button("回答を送信")
 
@@ -40,6 +40,9 @@ if submitted:
         auc = roc_auc_score(df_ref["値"], df_res["値"])
 
         st.write(f"{name}: {auc}")
+
+        # アップロードされたファイルの削除
+        del st.session_state['uploaded_file']
 
     else:
         st.alert("計算結果のファイルがアップロードされていません。") 
