@@ -21,22 +21,45 @@ with st.sidebar.form(key="form", clear_on_submit=True):
 
 if submitted:
     if uploaded_file is not None:
-        # DBファイル読み込み
-        conn = sqlite3.connect("lb.db")
-        c = conn.cursor()
+        # アップロードファイル読み込み
+        uploaded_file.seek(0)
+        df_res = pd.read_csv(uploaded_file)
 
         # 正解データを読み込み
         df_ref = pd.read_csv("正解_bin.csv")
 
-        # アップロードファイル読み込み
-        uploaded_file.seek(0)
-        df_res = pd.read_csv(uploaded_file)
-        
         # AUC計算
         auc = roc_auc_score(df_ref["値"], df_res["値"])
 
         st.write(f"{name}: {auc}")
 
+        # DBファイル読み込み
+        conn = sqlite3.connect("lb.db")
+        c = conn.cursor()
+
+        # レコードを登録
+        sql = f"""
+            INSERT INTO leaderboard VALUES (
+               {name} 
+            ,  {auc}
+            )
+        """
+        c.execute(sql)
+        conn.commit()
+
+        # 現在の結果表示
+        sql = f"""
+            SELECT
+                *
+            FROM
+                leaderboard
+            ORDER BY
+                auc DESC
+        """
+
+        df_lb = pd.read_sql(sql, conn)
+        st.dataframe(df_lb)
+        conn.close()
     else:
         st.alert("計算結果のファイルがアップロードされていません。") 
         st.stop()
