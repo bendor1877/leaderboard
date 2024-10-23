@@ -21,7 +21,7 @@ uploaded_file = st.sidebar.file_uploader("計算結果のCSVファイルをア�
 if uploaded_file is not None:
     df_res = pd.read_csv(uploaded_file)
 
-with st.sidebar.form(clear_on_submit=False):
+with st.sidebar.form(key="from", clear_on_submit=False):
     name = st.text_input("ニックネームを入力してください(他の参加者にも表示されます)")
     submitted = st.form_submit_button("回答を送信")
 
