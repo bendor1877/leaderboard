@@ -37,9 +37,6 @@ if submitted:
 
         st.write(f"{name}: {auc}")
 
-        # アップロードされたファイルの削除
-        del st.session_state['uploaded_file']
-
     else:
         st.alert("計算結果のファイルがアップロードされていません。") 
         st.stop()
