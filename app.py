@@ -44,7 +44,7 @@ if submitted:
             ,  :auc
             )
         """
-        c.execute(sql, {"name": {name}, "auc": {auc}})
+        c.execute(sql, {"name": name, "auc": auc})
         conn.commit()
 
         # 現在の結果表示
