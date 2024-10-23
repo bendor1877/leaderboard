@@ -14,13 +14,9 @@ st.set_page_config(
 # タイトルの設定
 st.title("リーダーボード")
 
-
-# サイドバーにアップロードファイルのウィジェットを表示
-st.sidebar.markdown("TEST")
-uploaded_file = st.sidebar.file_uploader("計算結果のCSVファイルをアップロードしてください", type='csv')
-
 with st.sidebar.form(key="form", clear_on_submit=True):
     name = st.text_input("ニックネームを入力してください(他の参加者にも表示されます)")
+    uploaded_file = st.file_uploader("計算結果のCSVファイルをアップロードしてください", type='csv')
     submitted = st.form_submit_button("回答を送信")
 
 if submitted:
