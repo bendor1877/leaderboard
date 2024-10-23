@@ -33,7 +33,8 @@ if submitted:
         df_ref = pd.read_csv("正解_bin.csv")
 
         # アップロードファイル読み込み
-        df_res = pd.read_csv(uploaded_file.seek(0))
+        uploaded_file.seek(0)
+        df_res = pd.read_csv(uploaded_file)
         
         # AUC計算
         auc = roc_auc_score(df_ref["値"], df_res["値"])
