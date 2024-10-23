@@ -39,7 +39,7 @@ if submitted:
         # AUC計算
         auc = roc_auc_score(df_ref["値"], df_res["値"])
 
-        print(f"{name}: {auc}")
+        st.write(f"{name}: {auc}")
 
     else:
         st.alert("計算結果のファイルがアップロードされていません。") 
