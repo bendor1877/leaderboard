@@ -19,19 +19,19 @@ st.title("リーダーボード")
 conn = sqlite3.connect("lb.db")
 c = conn.cursor()
 
-# 現在の結果表示
+# 現在の結果表示]
+sql_lb = f"""
+    SELECT
+        *
+    FROM
+        leaderboard
+    ORDER BY
+        auc DESC
+"""
 ph_lb = st.empty()
 with ph_lb:
-    sql = f"""
-        SELECT
-            *
-        FROM
-            leaderboard
-        ORDER BY
-            auc DESC
-    """
-
-    df_lb = pd.read_sql(sql, conn)
+    df_lb = pd.read_sql(sql_lb, conn)
+    st.write("現在のリーダーボード")
     st.dataframe(df_lb)
 
 
@@ -66,18 +66,9 @@ if submitted:
 
         # 現在の結果表示
         with ph_lb:
-            sql = f"""
-                SELECT
-                    *
-                FROM
-                    leaderboard
-                ORDER BY
-                    auc DESC
-            """
-
-            df_lb = pd.read_sql(sql, conn)
+            df_lb = pd.read_sql(sql_lb, conn)
             st.dataframe(df_lb)
             conn.close()
     else:
-        st.alert("計算結果のファイルがアップロードされていません。") 
+        st.warning("計算結果のファイルがアップロードされていません。") 
         st.stop()
