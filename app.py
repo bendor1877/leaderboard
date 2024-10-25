@@ -14,6 +14,28 @@ st.set_page_config(
 # タイトルの設定
 st.title("リーダーボード")
 
+
+# DBファイル読み込み
+conn = sqlite3.connect("lb.db")
+c = conn.cursor()
+
+# 現在の結果表示
+ph_lb = st.empty()
+with ph_lb:
+    sql = f"""
+        SELECT
+            *
+        FROM
+            leaderboard
+        ORDER BY
+            auc DESC
+    """
+
+    df_lb = pd.read_sql(sql, conn)
+    st.dataframe(df_lb)
+    conn.close()
+
+
 with st.sidebar.form(key="form", clear_on_submit=True):
     name = st.text_input("ニックネームを入力してください(他の参加者にも表示されます)")
     uploaded_file = st.file_uploader("計算結果のCSVファイルをアップロードしてください", type='csv')
@@ -33,10 +55,6 @@ if submitted:
 
         st.write(f"{name}: {auc}")
 
-        # DBファイル読み込み
-        conn = sqlite3.connect("lb.db")
-        c = conn.cursor()
-
         # レコードを登録
         sql = f"""
             INSERT INTO leaderboard (name, auc) VALUES (
@@ -48,18 +66,19 @@ if submitted:
         conn.commit()
 
         # 現在の結果表示
-        sql = f"""
-            SELECT
-                *
-            FROM
-                leaderboard
-            ORDER BY
-                auc DESC
-        """
+        with ph_lb:
+            sql = f"""
+                SELECT
+                    *
+                FROM
+                    leaderboard
+                ORDER BY
+                    auc DESC
+            """
 
-        df_lb = pd.read_sql(sql, conn)
-        st.dataframe(df_lb)
-        conn.close()
+            df_lb = pd.read_sql(sql, conn)
+            st.dataframe(df_lb)
+            conn.close()
     else:
         st.alert("計算結果のファイルがアップロードされていません。") 
         st.stop()
