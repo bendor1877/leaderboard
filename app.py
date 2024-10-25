@@ -67,7 +67,7 @@ if submitted:
         # 現在の結果表示
         with ph_lb:
             df_lb = pd.read_sql(sql_lb, conn)
-            st.dataframe(df_lb)
+            st.dataframe(df_lb, width=300)
             conn.close()
     else:
         st.warning("計算結果のファイルがアップロードされていません。") 
