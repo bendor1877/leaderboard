@@ -32,7 +32,7 @@ ph_lb = st.empty()
 with ph_lb:
     df_lb = pd.read_sql(sql_lb, conn)
     st.write("現在のリーダーボード")
-    st.dataframe(df_lb)
+    st.dataframe(df_lb, width=20)
 
 
 with st.sidebar.form(key="form", clear_on_submit=True):
