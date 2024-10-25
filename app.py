@@ -33,7 +33,6 @@ with ph_lb:
 
     df_lb = pd.read_sql(sql, conn)
     st.dataframe(df_lb)
-    conn.close()
 
 
 with st.sidebar.form(key="form", clear_on_submit=True):
